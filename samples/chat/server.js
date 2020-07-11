@@ -5,7 +5,6 @@ var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var mongoose = require('mongoose')
 
-
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
@@ -36,7 +35,7 @@ app.post('/messages', async (req,res) => {
     try {
         var message = new Message(req.body)
         //promises
-       var savedMessage = await  message.save()
+           var savedMessage = await  message.save()
        
            console.log('saved')
            
@@ -46,7 +45,7 @@ app.post('/messages', async (req,res) => {
                await Message.remove({_id:censored.id})
            else 
                io.emit('message',req.body)
-               res.sendStatus(200)
+            res.sendStatus(200)
            
 
     }catch(error){
