@@ -11,7 +11,11 @@ app.use(bodyParser.urlencoded({extended:false}))
 
 mongoose.Promise = Promise
 
-var dbUrl = 'mongodb+srv://xxx:yyy@cluster0.tnsnu.mongodb.net/<dbname>?retryWrites=true&w=majority';
+var dbUrl = '<yourDbPath>';
+
+mongoose.connect(dbUrl,(err) => {
+    console.log('mongo db connection',err)
+})
 
 var Message = mongoose.model('Message',{
     name : String,
@@ -30,6 +34,7 @@ app.get('/messages/:user',(req,res) => {
      res.send(messages)
     })
  })
+ 
 
 app.post('/messages', async (req,res) => {
     try {
@@ -60,9 +65,9 @@ io.on('connection',(socket) => {
     console.log('a user connected')
 })
 
-mongoose.connect(dbUrl,{useMongoClient:true},(err) => {
-    console.log('mongo db connection',err)
-})
+// mongoose.connect(dbUrl,{useMongoClient:true},(err) => {
+//     console.log('mongo db connection',err)
+// })
 
 var server = http.listen(3000, ()=> {
     console.log('server is listening on port',server.address().port)
